@@ -1,0 +1,6 @@
+setup_files/public
+setup_files/server
+server/public
+server/__pycache__
+server/venv
+server/database.db
