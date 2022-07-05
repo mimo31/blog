@@ -5,37 +5,38 @@
 	import { onMount } from "svelte";
 	import { Link } from "svelte-navigator";
 
-	export let category_url_name;
+	export let tag_url_name;
 	let loading_url_name = "";
-	let loaded_category = writable({});
+	let loaded_tag = writable({});
 	let something_loaded = false;
 
-	function startCategoryLoad(url_name)
+	function startTagLoad(url_name)
 	{
 		if (loading_url_name === url_name)
 			return;
 		loading_url_name = url_name;
 		(async () => {
-			fetch(API_ROOT + "get_category?url_name=" + url_name)
+			fetch(API_ROOT + "get_tag?url_name=" + url_name)
 			.then(response => response.json())
 			.then(data =>
 			{
-				if (data.url_name === category_url_name)
+				if (data.url_name === tag_url_name)
 				{
-					loaded_category.set(data);
+					loaded_tag.set(data);
 					something_loaded = true;
 				}
 			});
 		})();
 	}
-	$: startCategoryLoad(category_url_name);
+	$: startTagLoad(tag_url_name);
 
-	onMount(() => startCategoryLoad(category_url_name));
+	onMount(() => startTagLoad(tag_url_name));
 </script>
 {#if something_loaded}
-	<h3>{$loaded_category.description}</h3>
-	{$loaded_category.articles.length.toString() + " article" + ($loaded_category.articles.length !== 1? "s" : "")}
-	{#each $loaded_category.articles as article}
+	<h3>{$loaded_tag.description}</h3>
+	{$loaded_tag.articles.length.toString() + " article" + ($loaded_tag.articles.length !== 1? "s" : "")}
+	{#each $loaded_tag.articles as article}
 		<ArticleBox article_data={article} />
 	{/each}
 {/if}
+

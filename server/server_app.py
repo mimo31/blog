@@ -11,7 +11,6 @@ def get_db_connection():
 
 def send_index():
     resp = send_file("public/index.html")
-    print(resp)
     return resp
 
 @app.route("/")
@@ -44,7 +43,6 @@ def list_categories():
     conn = get_db_connection()
     entries = conn.cursor().execute("SELECT id,name,url_name FROM category").fetchall()
     conn.close()
-    print(entries)
     return addheader({ "categories": list(map(lambda cat: { "id": cat[0], "name": cat[1], "url_name": cat[2] }, entries)) })
 
 def parse_article_array(article_entries):
@@ -54,27 +52,57 @@ def parse_article_array(article_entries):
             "name": art[1],
             "url_name": art[2],
             "time_created": art[3],
-            "description": art[4]
+            "description": art[4],
+            "tags": article_tag_array(art[0])
         }, article_entries))
 
 @app.route('/api/get_category', methods=['GET'])
 def get_category():
     conn = get_db_connection()
     cat_url_name = request.args.get('url_name')
-    entry = conn.cursor().execute("SELECT id,name FROM category WHERE url_name=?", (cat_url_name,)).fetchall()
+    entry = conn.cursor().execute("SELECT id,name,description FROM category WHERE url_name=?", (cat_url_name,)).fetchall()
     if len(entry) == 0:
         conn.close()
         return "category " + cat_url_name + " does not exist", 404
     else:
         cat_id = entry[0][0]
-        cat_name = entry[0][1]
         article_entries = conn.cursor().execute("SELECT id,name,url_name,time_created,description FROM article WHERE category_id=?", (cat_id,)).fetchall()
         return addheader({
             "id": cat_id,
-            "name": cat_name,
+            "name": entry[0][1],
             "url_name": cat_url_name,
+            "description": entry[0][2],
             "articles": parse_article_array(article_entries)
         })
+
+@app.route('/api/get_tag', methods=['GET'])
+def get_tag():
+    conn = get_db_connection()
+    tag_url_name = request.args.get('url_name')
+    entry = conn.cursor().execute("SELECT id,name,description FROM tag WHERE url_name=?", (tag_url_name,)).fetchall()
+    if len(entry) == 0:
+        conn.close()
+        return "tag " + tag_url_name + " does not exist", 404
+    else:
+        tag_id = entry[0][0]
+        article_entries = conn.cursor().execute("SELECT article.id,article.name,article.url_name,article.time_created,article.description FROM article INNER JOIN article_tags ON article.id=article_tags.article_id WHERE article_tags.tag_id=?", (tag_id,)).fetchall()
+        return addheader({
+            "id": tag_id,
+            "name": entry[0][1],
+            "url_name": tag_url_name,
+            "description": entry[0][2],
+            "articles": parse_article_array(article_entries)
+        })
+
+def article_tag_array(article_id):
+    conn = get_db_connection()
+    entries = conn.cursor().execute("SELECT article_tags.tag_id,tag.name,tag.url_name FROM article_tags INNER JOIN tag ON article_tags.tag_id = tag.id WHERE article_tags.article_id=?", (article_id,)).fetchall()
+    return list(map(lambda tag:
+        {
+            "id": tag[0],
+            "name": tag[1],
+            "url_name": tag[2]
+        }, entries));
 
 @app.route('/api/get_article', methods=['GET'])
 def get_article():
@@ -97,7 +125,8 @@ def get_article():
             "time_edited": uentry[3],
             "content": article_content,
             "description": uentry[5],
-            "category_id": uentry[6]
+            "category_id": uentry[6],
+            "tags": article_tag_array(uentry[0])
             })
 
 @app.route('/api/list_articles', methods=['GET'])
@@ -107,3 +136,17 @@ def list_articles():
     return addheader({
         "articles": parse_article_array(article_entries)
         })
+
+@app.route('/api/list_tags', methods=['GET'])
+def list_tags():
+    conn = get_db_connection()
+    tag_entries = conn.cursor().execute("SELECT id,name,url_name,description FROM tag").fetchall()
+    return addheader({ "tags":
+        list(map(lambda tag:
+            {
+                "id": tag[0],
+                "name": tag[1],
+                "url_name": tag[2],
+                "description": tag[3],
+                "article_count": conn.cursor().execute("SELECT COUNT(*) FROM article_tags WHERE tag_id=?", (tag[0],)).fetchall()[0][0]
+            }, tag_entries)) });
