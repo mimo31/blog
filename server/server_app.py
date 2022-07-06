@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request, send_file
 import sqlite3
+import json
 
 app = Flask(__name__,
         static_url_path='',
@@ -117,8 +118,10 @@ def get_article():
         filehandle = open("articles/" + uentry[4], 'r');
         article_content = filehandle.read();
         filehandle.close()
+        art_id = uentry[0];
+        comment_entries = conn.cursor().execute("SELECT id,content,author,time_created,reply_to_id FROM comment WHERE article_id=?", (art_id,)).fetchall()
         return addheader({
-            "id": uentry[0],
+            "id": art_id,
             "name": uentry[1],
             "url_name": art_url_name,
             "time_created": uentry[2],
@@ -126,8 +129,16 @@ def get_article():
             "content": article_content,
             "description": uentry[5],
             "category_id": uentry[6],
-            "tags": article_tag_array(uentry[0])
-            })
+            "tags": article_tag_array(uentry[0]),
+            "comments": list(map(lambda comment:
+                {
+                    "id": comment[0],
+                    "content": comment[1],
+                    "author": comment[2],
+                    "time_created": comment[3],
+                    "reply_to_id": comment[4]
+                }, comment_entries))
+            });
 
 @app.route('/api/list_articles', methods=['GET'])
 def list_articles():
@@ -150,3 +161,23 @@ def list_tags():
                 "description": tag[3],
                 "article_count": conn.cursor().execute("SELECT COUNT(*) FROM article_tags WHERE tag_id=?", (tag[0],)).fetchall()[0][0]
             }, tag_entries)) });
+
+@app.route('/api/post_comment', methods=['POST'])
+def post_comment():
+    conn = get_db_connection()
+    args = json.loads(request.data)
+    article_id = args.get('article_id')
+    author = args.get('author')
+    content = args.get('content')
+    time_created = args.get('time_created')
+    reply_to_id = args.get('reply_to_id')
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO comment (article_id,content,author,time_created,reply_to_id) VALUES(?,?,?,?,?)", (article_id,content,author,time_created,reply_to_id))
+    conn.commit()
+    return addheader({
+        "id": cursor.lastrowid,
+        "content": content,
+        "author": author,
+        "time_created": time_created,
+        "reply_to_id": reply_to_id
+        })
