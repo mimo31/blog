@@ -33,7 +33,10 @@
 	onMount(() => startCategoryLoad(category_url_name));
 </script>
 {#if something_loaded}
-	<h3>{$loaded_category.description}</h3>
+	<h2>{$loaded_category.name}</h2>
+	<p class="content-description">
+		{$loaded_category.description}
+	</p>
 	{$loaded_category.articles.length.toString() + " article" + ($loaded_category.articles.length !== 1? "s" : "")}
 	{#each $loaded_category.articles as article}
 		<ArticleBox article_data={article} />

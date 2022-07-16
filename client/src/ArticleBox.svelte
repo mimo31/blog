@@ -10,6 +10,7 @@
 	{toArticleDatetimeString(article_data.time_created)}<br />
 	<Link to="/article/{article_data.url_name}">open</Link>
 	{article_data.description}
+	<br />
 	{#each article_data.tags as tag_data}
 		<TagPin {tag_data} />
 	{/each}

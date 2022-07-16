@@ -12,6 +12,7 @@
 			.then(response => response.json())
 			.then(data =>
 			{
+				data.articles.sort((a0, a1) => a1.time_created - a0.time_created);
 				articles.set(data.articles);
 			});
 	});

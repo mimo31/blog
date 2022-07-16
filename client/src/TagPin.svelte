@@ -9,7 +9,9 @@
 
 <style>
 	#tag_pin {
-		margin: 2px;
+		margin: 3px;
 		background-color: #f0f0f0;
+		display: inline-block;
+		padding: 4px;
 	}
 </style>

@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request, send_file
 import sqlite3
 import json
+from os.path import exists
 
 app = Flask(__name__,
         static_url_path='',
@@ -13,6 +14,10 @@ def get_db_connection():
 def send_index():
     resp = send_file("public/index.html")
     return resp
+
+@app.route("/article_resrcs/<resource_name>")
+def article_resrc(resource_name):
+    return send_file("public/article_resrcs/" + resource_name)
 
 @app.route("/")
 def index_route0():
@@ -32,6 +37,10 @@ def index_route3():
 
 @app.route("/about")
 def index_route4():
+    return send_index()
+
+@app.route("/tag/<trail_url>")
+def index_route5(trail_url):
     return send_index()
 
 def addheader(data_object):
@@ -109,13 +118,13 @@ def article_tag_array(article_id):
 def get_article():
     conn = get_db_connection()
     art_url_name = request.args.get('url_name')
-    entry = conn.cursor().execute("SELECT id,name,time_created,time_edited,filename,description,category_id FROM article WHERE url_name=?", (art_url_name,)).fetchall()
+    entry = conn.cursor().execute("SELECT id,name,time_created,time_edited,description,category_id FROM article WHERE url_name=?", (art_url_name,)).fetchall()
     if len(entry) == 0:
         conn.close()
         return "article " + art_url_name + " does not exist", 404
     else:
         uentry = entry[0]
-        filehandle = open("articles/" + uentry[4], 'r');
+        filehandle = open("articles/" + art_url_name + ".html", 'r');
         article_content = filehandle.read();
         filehandle.close()
         art_id = uentry[0];
@@ -127,8 +136,8 @@ def get_article():
             "time_created": uentry[2],
             "time_edited": uentry[3],
             "content": article_content,
-            "description": uentry[5],
-            "category_id": uentry[6],
+            "description": uentry[4],
+            "category_id": uentry[5],
             "tags": article_tag_array(uentry[0]),
             "comments": list(map(lambda comment:
                 {

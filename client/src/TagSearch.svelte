@@ -18,7 +18,7 @@
 	let search_text = "";
 </script>
 
-<p>You can search the tags here.</p>
+<p>You can search for tags here.</p>
 <input type="text" bind:value={search_text}>
 {#each $tags as tag_data}
 	{#if tag_data.name.includes(search_text) }

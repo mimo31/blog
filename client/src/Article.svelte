@@ -46,7 +46,10 @@
 	function startArticleLoad(url_name)
 	{
 		if (loading_url_name === url_name)
+		{
+			setTimeout(() => MathJax.typeset(), 0);
 			return;
+		}
 		loading_url_name = url_name;
 		something_loaded = false;
 		(async () => {
@@ -59,6 +62,7 @@
 					loaded_article.set(data);
 					processComments(data.comments);
 					something_loaded = true;
+					setTimeout(() => MathJax.typeset(), 0);
 				}
 			});
 		})();
@@ -81,7 +85,7 @@
 </script>
 
 {#if something_loaded}
-	<h2>{$loaded_article.name}</h2>
+	<h1>{$loaded_article.name}</h1>
 	<p>created {toArticleDatetimeString($loaded_article.time_created)}</p>
 	{#if $loaded_article.time_edited !== null}
 		<p>last edited {toArticleDatetimeString($loaded_article.time_edited)}</p>
@@ -89,10 +93,12 @@
 	{#each $loaded_article.tags as tag_data}
 		<TagPin {tag_data} />
 	{/each}
-	<p id="article_description">
+	<p class="content-description">
 		{$loaded_article.description}
 	</p>
-	{@html $loaded_article.content}
+	<div>
+		{@html $loaded_article.content}
+	</div>
 	{#if replying_to_index === -1}
 		<NewCommentWidget top_description="new comment" submit_button_text="create comment" article_id={$loaded_article.id} reply_to_id=null layer=0 cancellable=false on:submit={onCommentSubmit}/>
 	{/if}
@@ -103,9 +109,3 @@
 		{/if}
 	{/each}
 {/if}
-
-<style>
-	#article_description {
-		font-weight: lighter;
-	}
-</style>

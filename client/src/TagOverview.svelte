@@ -33,7 +33,8 @@
 	onMount(() => startTagLoad(tag_url_name));
 </script>
 {#if something_loaded}
-	<h3>{$loaded_tag.description}</h3>
+	<h3>{$loaded_tag.name}</h3>
+	<p class="content-description">{$loaded_tag.description}</p>
 	{$loaded_tag.articles.length.toString() + " article" + ($loaded_tag.articles.length !== 1? "s" : "")}
 	{#each $loaded_tag.articles as article}
 		<ArticleBox article_data={article} />

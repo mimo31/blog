@@ -6,8 +6,10 @@ cd ..
 rm setup_files/public -r
 rm setup_files/server -r
 cp client/public setup_files/public -r
-mkdir setup_files/server
-cp server/*.sql server/*.py server/articles setup_files/server -r
+cp server/articles/article_resrcs setup_files/public/article_resrcs -r
+mkdir -p setup_files/server/articles
+cp server/*.sql server/*.py setup_files/server -r
+cp server/articles/*.html setup_files/server/articles/
 zip -r setup_files.zip setup_files
 printf "rm * -r" | VblogConn
 VblogUpload setup_files.zip setup_files.zip

@@ -3,10 +3,10 @@ INSERT INTO category (name, url_name, description)
 		("test math", "test_math", "a category with articles about the queen of sciences"),
 		("test physics", "test_physics", "a category with articles studying nature in a systematic way");
 
-INSERT INTO article (name, url_name, time_created, time_edited, filename, description, category_id)
+INSERT INTO article (name, url_name, time_created, time_edited, description, category_id)
 	VALUES
-		("test Euler's identity", "test_eulers_identity", 1656841113.0, NULL, "test_eulers_identity.html", "This article reveals a secret about a famous formula.", 1),
-		("test Fibonacci numbers", "test_fibonacci", 1657055830.0, 1657055980.0, "test_fibonacci.html", "This article has been suggested by a friend from debating club.", 1);
+		("test Euler's identity", "test_eulers_identity", 1656841113.0, NULL, "This article reveals a secret about a famous formula.", 1),
+		("test Fibonacci numbers", "test_fibonacci", 1657055830.0, 1657055980.0, "This article has been suggested by a friend from debating club.", 1);
 
 INSERT INTO tag (name, url_name, description)
 	VALUES

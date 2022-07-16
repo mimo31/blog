@@ -1,0 +1,283 @@
+In a problem I was recently thinking about, calculus of variations seemed to be the natural first line of attack. So to get more familiar with its core ideas, I'll show you two classic examples where it can be applied.
+
+<h3>Shortest Path in the Plane</h3>
+<h4>Formulation</h4>
+<p>
+Let's say we have two distinct points, \((x_\mathrm s, y_\mathrm s)\), \((x_\mathrm t, y_\mathrm t)\), both in \(\mathbb R^2\), and we are looking for the shortest path between them. Yes, I know, this is <em>obviously</em> the straight line segment that connects them, but this article is about illustrative examples.
+</p>
+
+<p>
+A viable path can be represented as a continuous function \(f:[0,1]\to\mathbb R^2\) with \(f(0)=(x_\mathrm s,y_\mathrm s)\) and \(f(1)=(x_t,y_t)\). That's equivalent to having two continuous functions \(x:[0,1]\to\mathbb R\) and \(y:[0,1]\to\mathbb R\) with \(x(t)\) and \(y(t)\) being the first and second coordinate of \(f(t)\). Hence,
+$$
+\begin{align}
+x(0)&=x_\mathrm s\\
+x(1)&=x_\mathrm t\\
+y(0)&=y_\mathrm s\\
+y(1)&=y_\mathrm t.
+\end{align}
+$$
+Generally, I'm going to sacrifice rigor for the sake of intuition, so let's assume these functions are 'smooth enough' &mdash; differentiable in this case. Then we can define the length of such a path as 
+$$
+L(x(t),y(t))=\int_0^1\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}\,\mathrm dt.
+$$
+<h4>The Functional and its \(\delta\)</h4>
+\(L\) is a so-called <em>functional</em> &mdash; it maps our function \(t\mapsto(x(t),y(t))\) to a real number (the length of the path this function represents). We are looking of the shortest path, so in other words, we want to minimize the functional \(L\). The approach is similar as when minimizing \(\mathbb \rr\to\rr\) functions; whenever \(L(x(t),y(t))\) attains a local extremum, adding some small \(\delta x(t)\) and \(\delta y(t)\) to \(x(t)\) and \(y(t)\) shouldn't change the value of \(L\) (in the first-order approximation).
+</p>
+
+<p>
+Hence, we start by calculating the approximation of \(L(x+\delta x,y+\delta y)\) of the first order in \(\delta x\) and \(\delta y\). We get
+$$
+\begin{align}
+L(x+\delta x,y+\delta y)&\approx\int_0^1\sqrt{\left(\der xt\right)^2+2\cdot\der xt\cdot\der{\delta x}t+\left(\der yt\right)^2+2\cdot\der yt\cdot\der{\delta y}t}\,\mathrm dt\\
+&=\int_0^1\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}\cdot\sqrt{1+\frac{2\cdot\der xt\cdot\der{\delta x}t+2\cdot\der yt\cdot\der{\delta y}t}{\left(\der xt\right)^2+\left(\der yt\right)^2}}\,\mathrm dt\\
+&\approx\int_0^1\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}\cdot\left(1+\frac{\der xt\cdot\der{\delta x}t+\der yt\cdot\der{\delta y}t}{\left(\der xt\right)^2+\left(\der yt\right)^2}\right)\,\mathrm dt\\
+&=L(x,y)+\int_0^1\frac{\der xt\cdot\der{\delta x}t+\der yt\cdot\der{\delta y}t}{\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}}\,\mathrm dt.
+\end{align}
+$$
+Let's denote
+$$
+\delta L=L(x+\delta x,y+\delta y)-L(x,y)=\int_0^1\frac{\der xt\cdot\der{\delta x}t+\der yt\cdot\der{\delta y}t}{\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}}\,\mathrm dt.
+$$
+The goal is now to put \(\delta L\) into the form of \(\delta L=\int_0^1(h_1(x,y)\delta x+h_2(x,y)\delta y)\,\mathrm dt\), where \(h_1\) and \(h_2\) are some functions of \(x\) and \(y\). Then since \(\delta L\) has to be zero for all \(\delta x\) and \(\delta y\), we would have to have \(h_1=0\) and \(h_2=0\).
+</p>
+
+<p>
+For that, integration by parts comes in handy.
+$$
+\begin{align}
+\delta L&=\int_0^1\frac{\der xt\cdot\der{\delta x}t}{\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}}\,\mathrm dt+\int_0^1\frac{\der yt\cdot\der{\delta y}t}{\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}}\,\mathrm dt\\
+&=\frac{\der xt\cdot\delta x}{\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}}\bigg\lvert_{t=0}^{t=1}-\int_0^1\frac{\derr xt\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}-\der xt\cdot\frac{\der xt\cdot\derr xt+\der yt\cdot\derr yt}{\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}}}{\left(\der xt\right)^2+\left(\der yt\right)^2}\delta x\,\mathrm dt+\frac{\der yt\cdot\delta y}{\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}}\bigg\lvert_{t=0}^{t=1}-\int_0^1\frac{\derr yt\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}-\der yt\cdot\frac{\der xt\cdot\derr xt+\der yt\cdot\derr yt}{\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}}}{\left(\der xt\right)^2+\left(\der yt\right)^2}\delta y\,\mathrm dt
+\end{align}
+$$
+Since we've fixed \((x(0),y(0),x(1),y(1)\) as \(x_\mathrm s,y_\mathrm s,x_\mathrm t,y_\mathrm t\), our \(\delta x\) and \(\delta y\) have \(\delta x(0)=\delta y(0)=\delta x(1)=\delta y(1)=0\), so our formula simplifies...
+$$
+\begin{align}
+\delta L&=-\int_0^1\frac{\derr xt\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}-\der xt\cdot\frac{\der xt\cdot\derr xt+\der yt\cdot\derr yt}{\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}}}{\left(\der xt\right)^2+\left(\der yt\right)^2}\delta x\,\mathrm dt-\int_0^1\frac{\derr yt\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}-\der yt\cdot\frac{\der xt\cdot\derr xt+\der yt\cdot\derr yt}{\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}}}{\left(\der xt\right)^2+\left(\der yt\right)^2}\delta y\,\mathrm dt\\
+&=-\int_0^1\frac{\derr xt\left(\left(\der xt\right)^2+\left(\der yt\right)^2\right)-\der xt\left(\der xt\cdot\derr xt+\der yt\cdot\derr yt\right)}{\left(\left(\der xt\right)^2+\left(\der yt\right)^2\right)^{3/2}}\delta x\,\mathrm dt-\int_0^1\frac{\derr yt\left(\left(\der xt\right)^2+\left(\der yt\right)^2\right)-\der yt\left(\der xt\cdot\derr xt+\der yt\cdot\derr yt\right)}{\left(\left(\der xt\right)^2+\left(\der yt\right)^2\right)^{3/2}}\delta y\,\mathrm dt\\
+&=-\int_0^1\frac{\left(\derr xt\cdot\der yt-\derr yt\cdot\der xt\right)\der yt\delta x+\left(\derr yt\cdot\der xt-\derr xt\cdot\der yt\right)\der xt\delta y}{\left(\left(\der xt\right)^2+\left(\der yt\right)^2\right)^{3/2}}\,\mathrm dt
+\end{align}
+$$
+</p>
+<h4>Conditions for the Minimum from \(\delta L=0\)</h4>
+<p>
+As already mentioned, \(\delta L\) has to be zero for all \(\delta x\) and \(\delta y\), so
+$$
+\begin{align}
+	\frac{\left(\derr xt\cdot\der yt-\derr yt\cdot\der xt\right)\der yt}{\left(\left(\der xt\right)^2+\left(\der yt\right)^2\right)^{3/2}}=0\\
+	\frac{\left(\derr yt\cdot\der xt-\derr xt\cdot\der yt\right)\der xt}{\left(\left(\der xt\right)^2+\left(\der yt\right)^2\right)^{3/2}}=0
+\end{align}
+$$
+for all \(t\in[0,1]\).
+</p>
+
+<p>
+Notice how the value of \(L\) is invariant under any reparametrization of the curve. In other words, given an increasing bijection \(b:[0,1]\to[0,1]\) and a viable path \((x(t),y(t))\), \((x(b(t)),y(b(t)))\) would also be a viable path and it would have the same length &mdash; meaning \(L(x(t),y(t))=L(x(b(t)),y(b(t)))\). Since the curves can be arbitrarily reparametrized, it is without loss generality that we consider only curves where for all \(t\in[0,1]\) either \(\der xt\ne0\) or \(\der yt\ne0\). Under such an assumption, the above equations imply that
+$$
+\derr xt\cdot\der yt-\derr yt\cdot\der xt=0.
+$$
+<h4>Showing that the Minimum is a Straight Line</h4>
+One can notice that the left-hand side of the last equation resembles the numerator of the derivative of \(\der xt/\der yt\). Specifically, if \(\der yt\ne0\), then
+$$
+\frac{\mathrm d}{\mathrm dt}\Bigg[\frac{\der xt}{\der yt}\Bigg]=\frac{\derr xt\cdot\der yt-\der xt\cdot\derr yt}{\left(\der yt\right)^2},
+$$
+which is zero. Therefore, the quantity \(\der xt/\der yt\) is constant, so the curve \((x(t),y(t))\) must be a straight line. For those who are worried about the \(\der yt=0\) case, it is also possible to differentiate
+$$
+\frac{\mathrm d}{\mathrm dt}{\huge\Big[}\frac{\left(\der xt\right)^2}{\left(\der xt\right)^2+\left(\der yt\right)^2}{\huge\Big]}=\frac{2\cdot\der xt\derr xt\left(\left(\der xt\right)^2+\left(\der yt\right)^2\right)-\left(\der xt\right)^2\left(2\cdot\der xt\cdot\derr xt+2\cdot\der yt\derr yt\right)}{\left(\left(\der xt\right)^2+\left(\der yt\right)^2\right)^2}=\frac{2\cdot\der xt\cdot\der yt\left(\derr xt\cdot\der yt-\derr yt\cdot\der xt\right)}{\left(\left(\der xt\right)^2+\left(\der yt\right)^2\right)^2}=0,
+$$
+which leads to the same conclusion.
+</p>
+<h4>Minimizing \(L\) Using Gradient Descent</h4>
+<p>
+It bothered me there were no pretty pictures here so far. We've computed \(\delta L\) as a function of \(x(t)\), \(y(t)\), \(\delta x\), and \(\delta y\), so given any curve \((x(t),y(t))\) which doesn't minimize \(L\), we should be able to find \(\delta x\) and \(\delta y\) such that the resulting \(\delta L\) is negative and then by iteratively adding these \(\delta x\) and \(\delta y\) to \(x(t)\) and \(y(t)\), we would converge towards a curve for which \(L\) attains a local minimum.
+</p>
+
+<p>
+To make this possible, we have to discretize the curve. We discretize it into \(N\) parts &mdash; each of which corresponds to values of \(t\) in an interval of length \(1/N\). The curve is then represented by finitely many points \((x_0,\dots,x_N)\) and \((y_0,\dots,y_N)\), where
+$$
+\begin{align}
+x_i&=x\left(i/N\right)\\
+y_i&=y\left(i/N\right).
+\end{align}
+$$
+We can then approximate the derivatives by finite differences. For example,
+$$
+\begin{align}
+\left(\der xt\right)_i&=\left(\der xt\right)\left(i/N\right)\approx\frac{x_{i+1}-x_{i-1}}{2/N}\\
+\left(\derr xt\right)_i&=\left(\derr xt\right)\left(i/N\right)\approx\frac{x_{i+1}+x_{i-1}-2x_i}{1/N^2}.
+\end{align}
+$$
+I've tried this approach with various parameters and the process was always either unstable, or converged slowly, or both. Alternatively, you can deduce the length directly from the discretized curve as
+$$
+L=\sum_{i=0}^{N-1}\sqrt{(x_{i+1}-x_i)^2+(y_{i+1}-y_i)^2}.
+$$
+Then we have
+$$
+\begin{align}
+\frac{\partial L}{\partial x_i}=\frac{x_i-x_{i+1}}{\sqrt{(x_i-x_{i+1})^2+(y_i-y_{i+1})^2}}+\frac{x_i-x_{i-1}}{\sqrt{(x_i-x_{i-1})^2+(y_i-y_{i-1})^2}}\\
+\frac{\partial L}{\partial y_i}=\frac{y_i-y_{i+1}}{\sqrt{(x_i-x_{i+1})^2+(y_i-y_{i+1})^2}}+\frac{y_i-y_{i-1}}{\sqrt{(x_i-x_{i-1})^2+(y_i-y_{i-1})^2}},
+\end{align}
+$$
+for all \(i\in\{1,\dots,N-1\}\), which we can use to iteratively update \((x_1,\dots,x_{N-1})\) and \((y_1,\dots,y_{N-1})\) until we converge to a local minimum of \(L\).
+</p>
+<img src="/article_resrcs/standard_calculus_of_variations_straightening.gif" alt="animation of a curve covering to a local minimum of L">
+<p>
+In the above animation, I started with the curve
+$$
+\begin{align}
+x(t)&=t+\sin(2\pi t)+\sin(3\pi t)\\
+y(t)&=t+\sin(5\pi t)-\sin(4\pi t),
+\end{align}
+$$
+which has \((x_\mathrm s,y_\mathrm s)=(0,0)\) and \((x_\mathrm t,y_\mathrm t)=(1,1)\).
+</p>
+
+<h3>Shortest Path Encompassing an Area</h3>
+<h4>Formulation Using Functionals</h4>
+<p>
+This time, we will be a looking a shortest <em>closed</em> path that encompasses some given area \(S_0>0\). As before, a path is represented by continuous functions \(f:[0,1]\to\rr^2\) or \(x:[0,1]\to\rr\) and \(y:[0,1]\to\rr\). We require the paths to be closed, so we choose an arbitrary point \((x_\mathrm s,y_\mathrm s)\in\mathbb R^2\) and require
+$$
+\begin{align}
+x(0)&=x(1)=x_\mathrm s\\
+y(0)&=y(1)=y_\mathrm s.
+\end{align}
+$$
+The area enclosed by the curve \((x(t),y(t))\) can be computed as
+$$
+S(x(t),y(t))=\int_0^1-\der xt y\,\mathrm dt
+$$
+because if \(\Omega\) is the set enclosed by \(f(t)=(x(t),y(t))\), then by <a href="https://en.wikipedia.org/wiki/Green%27s_theorem">Green's theorem</a>,
+$$
+S(f(t))=\iint_\Omega 1\,\mathrm dx\mathrm dy=\oint_f(-y,0)\,\mathrm dt=\int_0^1-\der xty\,\mathrm dt.
+$$
+For the length of the curve, we use the same functional \(L\) as in the previous example.
+</p>
+<p>
+It is standard knowledge that the answer here is a circle of radius \(\sqrt{S_0/\pi}\) and circumference \(L=2\sqrt{\pi S_0}\), but for the same reasons are before, we want to use the calculus of variations to deduce that that is in fact the solution.
+</p>
+<h4>\(\delta S\) and Lagrange Multipliers</h4>
+<p>
+Now we need to minimize \(L\) as before, but this time under the constraint \(S(x(t),y(t))=S_0\). We shall use the <a href="https://en.wikipedia.org/wiki/Lagrange_multiplier">method of Lagrange multipliers</a>. As a functional that maps the functions \((\delta x,\delta y)\) to elements of \(\rr\), we can consider \(\delta L\) to be an element of the vector space of all such functionals. At a local extremum of \(L\) under constrained by \(S=S_0\), \(\delta L\) will not necessarily have to be zero, but it has to be zero for all \((\delta x,\delta y)\), for which \(\delta S=S(x+\delta x,y+\delta y)-S(x,y)\) is zero. It follows that there must exist we have to have \(\lambda\in\rr\) such that \(\delta L=\lambda\delta S\).
+</p>
+<p>
+Hence, the next step is to calculate \(\delta S\).
+$$
+\begin{align}
+\delta S&=\int_0^1-\left(\der xt+\der{\delta x}t\right)(y+\delta y)\,\mathrm dt-\int_0^1-\der xty\,\mathrm dt\\
+&\approx\int_0^1\left(-\der{\delta x}ty-\der xt\delta y\right)\,\mathrm dt
+\end{align}
+$$
+Again, we integrate by parts.
+$$
+\begin{align}
+\delta S&=\left(-\delta x\cdot y\right)\bigg\vert_{t=0}^{t=1}+\int_0^1\left(\der yt\delta x-\der xt\delta y\right)\,\mathrm dt\\
+&=\int_0^1\left(\der yt\delta x-\der xt\delta y\right)\,\mathrm dt
+\end{align}
+$$
+As we argued above, there must exists \(\lambda\in\rr\) such that
+$$
+\begin{align}
+\frac{\left(\derr xt\cdot\der yt-\derr yt\cdot\der xt\right)\der yt}{\left(\left(\der xt\right)^2+\left(\der yt\right)^2\right)^{3/2}}&=\lambda\der yt\\
+\frac{\left(\derr yt\cdot\der xt-\derr xt\cdot\der yt\right)\der xt}{\left(\left(\der xt\right)^2+\left(\der yt\right)^2\right)^{3/2}}&=-\lambda\der xt.
+\end{align}
+$$
+Again, we only consider parametrizations for which \(\der xt\ne0\) or \(\der yt\ne0\) for all \(t\in[0,1]\). Hence, we can conclude that for all \(t\in[0,1]\),
+$$
+\frac{\derr xt\cdot\der yt-\derr yt\cdot\der xt}{\left(\left(\der xt\right)^2+\left(\der yt\right)^2\right)^{3/2}}=\lambda.
+$$
+<h4>Showing that the Minimum is a Circle</h4>
+Such a formula doesn't seem to give us clear information about the curve right away. However, we already suspect that the curve needs to be a circle, so we will try to prove that. To that end, we can look at any point along the curve and define a new point \((x_\mathrm c,y_\mathrm c)\) as a function of \(\left(x,y,\der xt,\der yt,\derr xt,\derr yt\right)\). If we then show that \((x_\mathrm c,y_\mathrm c)\) is the same point for all points along the curve and that the distance between \((x,y)\) and \((x_\mathrm c,y_\mathrm c)\) is kept constant, we will be able to conclude that the curve is a circle with \((x_\mathrm c,y_\mathrm c)\) as the center.
+</p>
+<p>
+To determine the formula for \((x_\mathrm c,y_\mathrm c)\), we realize that along a circle, the velocity vector is always perpendicular to the direction toward the center. So to get \((x_\mathrm c,y_\mathrm c)\), we will add a vector perpendicular to \(\left(\der xt,\der yt\right)\) to \((x,y)\). To determine the length of this vector, we remind ourselves of the formula for centripetal acceleration in case of circular motion:
+$$
+a_{\mathrm{center}}=\frac{v^2}{r},
+$$
+from which we get
+$$
+r=\frac{v^2}{a_{\mathrm{center}}}.
+$$
+The centripetal acceleration can be calculated as
+$$
+a_{\mathrm{center}}=\frac{\vec a\times\vec v}{v},
+$$
+so
+$$
+\begin{align}
+r&=\frac{v^3}{\vec a\times\vec v}\\
+&=\frac{\left(\left(\der xt\right)^2+\left(\der yt\right)^2\right)^{3/2}}{\derr xt\cdot\der yt-\derr yt\cdot\der xt}\\
+&=\frac1\lambda.
+\end{align}
+$$
+</p>
+<p>
+Finally, we can define
+$$
+\begin{align}
+x_\mathrm c&=x+\frac{r\der yt}v=x+\frac{\der yt}{\lambda\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}}\\
+y_\mathrm c&=y-\frac{r\der xt}v=y-\frac{\der xt}{\lambda\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}}.
+\end{align}
+$$
+</p>
+<p>
+Then indeed, the distance between \((x,y)\) and \((x_\mathrm c,y_\mathrm c)\) is the constant
+$$
+\sqrt{\left(\frac{\der yt}{\lambda\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}}\right)^2+\left(-\frac{\der xt}{\lambda\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}}\right)^2}=\frac1\lambda
+$$
+and \((x_\mathrm c,y_\mathrm c)\) is always the same point for all \(t\) because
+$$
+\begin{align}
+\der{x_\mathrm c}t&=\der xt+\frac1\lambda\cdot\frac{\derr yt\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}-\frac{\der yt\left(\der xt\cdot\derr xt+\der yt\cdot\derr yt\right)}{\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}}}{\left(\der xt\right)^2+\left(\der yt\right)^2}\\
+&=\der xt+\frac1\lambda\cdot\frac{\derr yt\left(\der xt\right)^2+\derr yt\left(\der yt\right)^2-\der yt\left(\der xt\cdot\derr xt+\der yt\cdot\derr yt\right)}{\left(\left(\der xt\right)^2+\left(\der yt\right)^2\right)^{3/2}}\\
+&=\der xt+\frac1\lambda\cdot\der xt\cdot\frac{\derr yt\cdot\der xt-\der yt\cdot\derr xt}{\left(\left(\der xt\right)^2+\left(\der yt\right)^2\right)^{3/2}}\\
+&=\der xt+\frac1\lambda\cdot\der xt\cdot(-\lambda)\\
+&=0
+\end{align}
+$$
+and similarly
+$$
+\der{y_\mathrm c}t=0.
+$$
+</p>
+<h4>Grandient Descent and Lagrange Multipliers for Minimal \(L\) and Constant \(S\)</h4>
+<p>
+Finally, we'd like to find a way of converging from a given curve \((x(t),y(t))\) to one that minimizes \(L\) under the constraint \(S=S_0\). We could use the calculated \(\delta L\) and \(\delta S\), but with the experience from the previous example, I expect it to be more effective to express \(L\) and \(S\) directly as a function of the discretized curve and calculate the derivatives of those with respect to the individual points \((x_0,\dots,x_N)\) and \((y_0,\dots,y_N)\).
+</p>
+
+<p>
+We've already done this for \(L\) above. \(S\) can be computed as
+$$
+S=\sum_{i=0}^{N-1}\frac{(x_i-x_{i+1})(y_i+y_{i+1})}2.
+$$
+So for all \(i\in\{1,\dots,N-1\}\)
+$$
+\begin{align}
+\frac{\partial S}{\partial x_i}&=\frac{y_i+y_{i+1}}2-\frac{y_{i-1}+y_i}2=\frac{y_{i+1}-y_{i-1}}2\\
+\frac{\partial S}{\partial y_i}&=\frac{x_i-x_{i+1}}2+\frac{x_{i-1}-x_i}2=\frac{x_{i-1}-x_{i+1}}2.
+\end{align}
+$$
+In each iteration, we want to update \((x_1,\dots,x_{N-1},y_1,\dots,y_{N-1})\) such that \(L\) decreases, but \(S\) stays the same (so that the constraint \(S=S_0\) is still satisfied). For that, we take the vector
+$$
+\nabla L=\left(\frac{\partial L}{\partial x_1},\dots,\frac{\partial L}{\partial x_{N-1}},\frac{\partial L}{\partial y_1},\dots,\frac{\partial L}{\partial y_{N-1}}\right)
+$$
+and subtract from it its orthogonal projection onto
+$$
+\nabla S=\left(\frac{\partial S}{\partial x_1},\dots,\frac{\partial S}{\partial x_{N-1}},\frac{\partial S}{\partial y_1},\dots,\frac{\partial S}{\partial y_{N-1}}\right)
+$$
+to get
+$$
+\vec u:=\nabla L-\frac{\nabla L\cdot\nabla S}{\lVert\nabla S\rVert^2}\nabla S.
+$$
+Then unless \(\vec u=0\) (in which case we've reached the local extremum), the derivative of \(L\) along \(\vec u\) is positive (the largest possible, in fact) while the derivative of \(S\) along \(\vec u\) is zero. Therefore, adding a small negative multiple of \(\vec u\) to our curve decreases \(L\) without violating the \(S=S_0\) constraint.
+</p>
+
+<p>
+As an example, I chose the initial curve
+$$
+\begin{align}
+x(t)&=\cos(2\pi t)-\frac12\sin(6\pi t)\\
+y(t)&=\sin(2\pi t)+\frac12\cos(4\pi t),
+\end{align}
+$$
+which has \((x(0),y(0))=(x(1),y(1))=(1,1/2)\). The following animation shows it converging to the shortest curve which encloses the same area.
+</p>
+<img src="/article_resrcs/standard_calculus_of_variations_circling.gif" alt="animation of a curve covering to a local minimum of L">
