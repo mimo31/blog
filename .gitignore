@@ -1,5 +1,5 @@
-setup_files/public
-setup_files/server
+package/public
+package/server
 server/public
 server/__pycache__
 server/venv
