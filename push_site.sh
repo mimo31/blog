@@ -11,7 +11,7 @@ mkdir -p package/server/articles
 cp server/*.sql server/*.py package/server -r
 cp server/articles/*.html package/server/articles/
 zip -r package.zip package
-printf "ls | grep -xv \"blog\" | parallel rm -rf" | VblogConn
+printf "ls | grep -xv \"blog\" | xargs rm -rf" | VblogConn
 VblogUpload package.zip package.zip
 rm package.zip
 printf "unzip package.zip; rm package.zip; chmod +x package/setup.sh; ./package/setup.sh" | VblogConn

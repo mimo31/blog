@@ -99,6 +99,9 @@
 	<div>
 		{@html $loaded_article.content}
 	</div>
+	<p>
+		as this site is still very much WOP, posted comments can be deleted at any time
+	</p>
 	{#if replying_to_index === -1}
 		<NewCommentWidget top_description="new comment" submit_button_text="create comment" article_id={$loaded_article.id} reply_to_id=null layer=0 cancellable=false on:submit={onCommentSubmit}/>
 	{/if}

@@ -4,7 +4,7 @@ INSERT INTO category (name, url_name, description)
 
 INSERT INTO article (name, url_name, time_created, time_edited, description, category_id)
 	VALUES
-		("Calculus of Variations Basics", "standard_calculus_of_variations", "1657335849.0", "1658005102.0", "introducing the calculus of variations by showing two standard examples", "1");
+		("Calculus of Variations Basics", "standard_calculus_of_variations", "1657335849.0", "1658100094.0", "introducing the calculus of variations by showing two standard examples", "1");
 
 INSERT INTO tag (name, url_name, description)
 	VALUES

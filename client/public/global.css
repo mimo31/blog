@@ -68,3 +68,18 @@ button:focus {
 	text-decoration: italics;
 	font-style: italic;
 }
+
+.summary-box {
+	background-color: #ffffbb;
+}
+
+.summary-box-title {
+	font-family: monospace;
+	background-color: #ffff77;
+	padding: 5px;
+	font-size: 15px;
+}
+
+.summary-box-insides {
+	padding: 7px;
+}

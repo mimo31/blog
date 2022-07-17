@@ -1,13 +1,13 @@
-In a problem I was recently thinking about, calculus of variations seemed to be the natural first line of attack. So to get more familiar with its core ideas, I'll show you two classic examples where it can be applied.
+In a problem I was recently thinking about, the <a href="https://en.wikipedia.org/wiki/Calculus_of_variations">calculus of variations</a> seemed to be the natural first line of attack. So to get more familiar with its core ideas, I'll show you two classic examples where it can be applied.
 
 <h3>Shortest Path in the Plane</h3>
 <h4>Formulation</h4>
 <p>
-Let's say we have two distinct points, \((x_\mathrm s, y_\mathrm s)\), \((x_\mathrm t, y_\mathrm t)\), both in \(\mathbb R^2\), and we are looking for the shortest path between them. Yes, I know, this is <em>obviously</em> the straight line segment that connects them, but this article is about illustrative examples.
+Let's say we have two distinct points, \((x_\mathrm s, y_\mathrm s)\), \((x_\mathrm t, y_\mathrm t)\), both in \(\mathbb R^2\), and we are looking for the shortest path between them. Yes, I know, this is <em>obviously</em> the straight line segment that connects them, but the article is about illustrative examples and this example illustrates <s>how to get to the answer the difficult way</s> how the calculus of variations works.
 </p>
 
 <p>
-A viable path can be represented as a continuous function \(f:[0,1]\to\mathbb R^2\) with \(f(0)=(x_\mathrm s,y_\mathrm s)\) and \(f(1)=(x_t,y_t)\). That's equivalent to having two continuous functions \(x:[0,1]\to\mathbb R\) and \(y:[0,1]\to\mathbb R\) with \(x(t)\) and \(y(t)\) being the first and second coordinate of \(f(t)\). Hence,
+A path from \((x\ssb s,y\ssb s)\) to \((x\ssb t,y\ssb t)\) can be represented as a continuous function \(f:[0,1]\to\mathbb R^2\) with \(f(0)=(x_\mathrm s,y_\mathrm s)\) and \(f(1)=(x\ssb t,y\ssb t)\). That's equivalent to having two continuous functions \(x:[0,1]\to\mathbb R\) and \(y:[0,1]\to\mathbb R\) with \(x(t)\) and \(y(t)\) being the first and second coordinate of \(f(t)\). Hence,
 $$
 \begin{align}
 x(0)&=x_\mathrm s\\
@@ -16,12 +16,23 @@ y(0)&=y_\mathrm s\\
 y(1)&=y_\mathrm t.
 \end{align}
 $$
-Generally, I'm going to sacrifice rigor for the sake of intuition, so let's assume these functions are 'smooth enough' &mdash; differentiable in this case. Then we can define the length of such a path as 
+Generally, I'm going to sacrifice some rigor for the sake of intuition, so let's assume these functions are 'smooth enough' &mdash; differentiable in this case. Then we can define the length of such a path as 
 $$
-L(x(t),y(t))=\int_0^1\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}\,\mathrm dt.
+L(x(t),y(t))=\int_0^1\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}\,\mathrm dt
 $$
-<h4>The Functional and its \(\delta\)</h4>
-\(L\) is a so-called <em>functional</em> &mdash; it maps our function \(t\mapsto(x(t),y(t))\) to a real number (the length of the path this function represents). We are looking of the shortest path, so in other words, we want to minimize the functional \(L\). The approach is similar as when minimizing \(\mathbb \rr\to\rr\) functions; whenever \(L(x(t),y(t))\) attains a local extremum, adding some small \(\delta x(t)\) and \(\delta y(t)\) to \(x(t)\) and \(y(t)\) shouldn't change the value of \(L\) (in the first-order approximation).
+and that is the quantity we want to minimize. Summarizing:
+<div class="summary-box">
+	<div class="summary-box-title">Formalized Problem</div>
+	<div class="summary-box-insides">
+		Given \(\{(x\ssb s,y\ssb s),(x\ssb t, y\ssb t)\}\subseteq\rr^2\) with \((x\ssb s,y\ssb s)\ne(x\ssb t,y\ssb t)\), find differentiable functions \(x:[0,1]\to\rr\) and \(y:[0,1]\to\rr\) with \((x(0),y(0),x(1),y(1))=(x\ssb s,y\ssb s,x\ssb t,y\ssb t)\) such that
+		$$
+		L(x(t),y(t))=\int_0^1\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}\,\mathrm dt
+		$$
+		is minimized.
+	</div>
+</div>
+<h4>The Functional and Its \(\delta\)</h4>
+\(L\) is a so-called <em>functional</em> &mdash; it maps our function \(t\mapsto(x(t),y(t))\) to a real number (the length of the path this function represents). We are looking for the shortest path, so in other words, we want to minimize the functional \(L\). The approach is similar as when minimizing \(\mathbb \rr\to\rr\) functions; whenever \(L(x(t),y(t))\) attains a local extremum, adding some small \(\delta x(t)\) and \(\delta y(t)\) to \(x(t)\) and \(y(t)\) shouldn't change the value of \(L\) (in the first-order approximation). That is, the 'derivative' of \(L\) at a local extremum should be zero.
 </p>
 
 <p>
@@ -38,18 +49,18 @@ Let's denote
 $$
 \delta L=L(x+\delta x,y+\delta y)-L(x,y)=\int_0^1\frac{\der xt\cdot\der{\delta x}t+\der yt\cdot\der{\delta y}t}{\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}}\,\mathrm dt.
 $$
-The goal is now to put \(\delta L\) into the form of \(\delta L=\int_0^1(h_1(x,y)\delta x+h_2(x,y)\delta y)\,\mathrm dt\), where \(h_1\) and \(h_2\) are some functions of \(x\) and \(y\). Then since \(\delta L\) has to be zero for all \(\delta x\) and \(\delta y\), we would have to have \(h_1=0\) and \(h_2=0\).
+The goal is now to put \(\delta L\) into the form \(\delta L=\int_0^1(h_1(x,y)\delta x+h_2(x,y)\delta y)\,\mathrm dt\), where \(h_1\) and \(h_2\) are some functions of \(x\) and \(y\). Then since \(\delta L\) has to be zero for all \(\delta x\) and \(\delta y\), we would have to have \(h_1=0\) and \(h_2=0\).
 </p>
 
 <p>
-For that, integration by parts comes in handy.
+For that, <a href="https://en.wikipedia.org/wiki/Integration_by_parts">integration by parts</a> comes in handy.
 $$
 \begin{align}
 \delta L&=\int_0^1\frac{\der xt\cdot\der{\delta x}t}{\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}}\,\mathrm dt+\int_0^1\frac{\der yt\cdot\der{\delta y}t}{\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}}\,\mathrm dt\\
 &=\frac{\der xt\cdot\delta x}{\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}}\bigg\lvert_{t=0}^{t=1}-\int_0^1\frac{\derr xt\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}-\der xt\cdot\frac{\der xt\cdot\derr xt+\der yt\cdot\derr yt}{\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}}}{\left(\der xt\right)^2+\left(\der yt\right)^2}\delta x\,\mathrm dt+\frac{\der yt\cdot\delta y}{\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}}\bigg\lvert_{t=0}^{t=1}-\int_0^1\frac{\derr yt\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}-\der yt\cdot\frac{\der xt\cdot\derr xt+\der yt\cdot\derr yt}{\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}}}{\left(\der xt\right)^2+\left(\der yt\right)^2}\delta y\,\mathrm dt
 \end{align}
 $$
-Since we've fixed \((x(0),y(0),x(1),y(1)\) as \(x_\mathrm s,y_\mathrm s,x_\mathrm t,y_\mathrm t\), our \(\delta x\) and \(\delta y\) have \(\delta x(0)=\delta y(0)=\delta x(1)=\delta y(1)=0\), so our formula simplifies...
+Since we've fixed \((x(0),y(0),x(1),y(1))\) as \((x_\mathrm s,y_\mathrm s,x_\mathrm t,y_\mathrm t)\), our \(\delta x\) and \(\delta y\) have \(\delta x(0)=\delta y(0)=\delta x(1)=\delta y(1)=0\), so our formula simplifies...
 $$
 \begin{align}
 \delta L&=-\int_0^1\frac{\derr xt\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}-\der xt\cdot\frac{\der xt\cdot\derr xt+\der yt\cdot\derr yt}{\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}}}{\left(\der xt\right)^2+\left(\der yt\right)^2}\delta x\,\mathrm dt-\int_0^1\frac{\derr yt\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}-\der yt\cdot\frac{\der xt\cdot\derr xt+\der yt\cdot\derr yt}{\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}}}{\left(\der xt\right)^2+\left(\der yt\right)^2}\delta y\,\mathrm dt\\
@@ -58,7 +69,7 @@ $$
 \end{align}
 $$
 </p>
-<h4>Conditions for the Minimum from \(\delta L=0\)</h4>
+<h4>Conditions for the Minimum Derived from \(\delta L=0\)</h4>
 <p>
 As already mentioned, \(\delta L\) has to be zero for all \(\delta x\) and \(\delta y\), so
 $$
@@ -71,42 +82,71 @@ for all \(t\in[0,1]\).
 </p>
 
 <p>
-Notice how the value of \(L\) is invariant under any reparametrization of the curve. In other words, given an increasing bijection \(b:[0,1]\to[0,1]\) and a viable path \((x(t),y(t))\), \((x(b(t)),y(b(t)))\) would also be a viable path and it would have the same length &mdash; meaning \(L(x(t),y(t))=L(x(b(t)),y(b(t)))\). Since the curves can be arbitrarily reparametrized, it is without loss generality that we consider only curves where for all \(t\in[0,1]\) either \(\der xt\ne0\) or \(\der yt\ne0\). Under such an assumption, the above equations imply that
+Notice how the value of \(L\) is invariant under any reparametrization of the curve. In other words, if \(b:[0,1]\to[0,1]\) is an increasing bijection and \((x(t),y(t))\) a viable path, then \((x(b(t)),y(b(t)))\) would also be a viable path and it would have the same length &mdash; meaning \(L(x(t),y(t))=L(x(b(t)),y(b(t)))\). So since the curves can be arbitrarily reparametrized, it is without loss generality that we consider only curves where for all \(t\in[0,1]\) either \(\der xt\ne0\) or \(\der yt\ne0\). Under such an assumption, the above equations imply that
 $$
 \derr xt\cdot\der yt-\derr yt\cdot\der xt=0.
 $$
-<h4>Showing that the Minimum is a Straight Line</h4>
+Precisely:
+<div class="summary-box">
+	<div class="summary-box-title">Differential Equation for the Solution</div>
+	<div class="summary-box-insides">
+		Any pair of \(x:[0,1]\to\rr\) and \(y:[0,1]\to\rr\) solving the above-formulated optimization problem (minimizing \(L(x(t),y(t))\)) satisfies
+		$$
+		\derr xt\cdot\der yt-\derr yt\cdot\der xt=0
+		$$
+		for all values of \(t\in[0,1]\).
+	</div>
+</div>
+</p>
+<h4>Showing That the Minimum Is a Straight Line</h4>
+<p>
 One can notice that the left-hand side of the last equation resembles the numerator of the derivative of \(\der xt/\der yt\). Specifically, if \(\der yt\ne0\), then
 $$
 \frac{\mathrm d}{\mathrm dt}\Bigg[\frac{\der xt}{\der yt}\Bigg]=\frac{\derr xt\cdot\der yt-\der xt\cdot\derr yt}{\left(\der yt\right)^2},
 $$
-which is zero. Therefore, the quantity \(\der xt/\der yt\) is constant, so the curve \((x(t),y(t))\) must be a straight line. For those who are worried about the \(\der yt=0\) case, it is also possible to differentiate
+which is zero by the equation we got above. Therefore, the quantity \(\der xt/\der yt\) is constant, so the curve \((x(t),y(t))\) must be a straight line. For all the prudes, <em>I see you</em>, who are worried about the \(\der yt=0\) case, it is also possible to differentiate
 $$
 \frac{\mathrm d}{\mathrm dt}{\huge\Big[}\frac{\left(\der xt\right)^2}{\left(\der xt\right)^2+\left(\der yt\right)^2}{\huge\Big]}=\frac{2\cdot\der xt\derr xt\left(\left(\der xt\right)^2+\left(\der yt\right)^2\right)-\left(\der xt\right)^2\left(2\cdot\der xt\cdot\derr xt+2\cdot\der yt\derr yt\right)}{\left(\left(\der xt\right)^2+\left(\der yt\right)^2\right)^2}=\frac{2\cdot\der xt\cdot\der yt\left(\derr xt\cdot\der yt-\derr yt\cdot\der xt\right)}{\left(\left(\der xt\right)^2+\left(\der yt\right)^2\right)^2}=0,
 $$
-which leads to the same conclusion.
+which leads to the same conclusion. We can state the final result as:
+<div class="summary-box">
+	<div class="summary-box-title">Solution to the Problem</div>
+	<div class="summary-box-insides">
+		A pair of \(x:[0,1]\to\rr\) and \(y:[0,1]\to\rr\) are a solution to the above-formulated optimization problem if and only if they represent a parametrization of the line segment from \((x\ssb s,y\ssb s)\) to \((x\ssb t,y\ssb t)\). More precisely, if and only if there exists a differentiable bijection \(b:[0,1]\to[0,1]\) with \(b(0)=0\) and \(b(1)=1\) such that
+		$$
+		\begin{align}
+		x(t)&=(1-b(t))x\ssb s+b(t)x\ssb t\\
+		y(t)&=(1-b(t))y\ssb s+b(t)y\ssb t
+		\end{align}
+		$$
+		for all values of \(t\in[0,1]\).
+	</div>
+</div>
 </p>
 <h4>Minimizing \(L\) Using Gradient Descent</h4>
 <p>
-It bothered me there were no pretty pictures here so far. We've computed \(\delta L\) as a function of \(x(t)\), \(y(t)\), \(\delta x\), and \(\delta y\), so given any curve \((x(t),y(t))\) which doesn't minimize \(L\), we should be able to find \(\delta x\) and \(\delta y\) such that the resulting \(\delta L\) is negative and then by iteratively adding these \(\delta x\) and \(\delta y\) to \(x(t)\) and \(y(t)\), we would converge towards a curve for which \(L\) attains a local minimum.
+It occured to me that there were no pretty pictures here so far. It would be worth crying over if it stayed that way. We've computed \(\delta L\) as a function of \(x\), \(y\), \(\delta x\), and \(\delta y\), so given any curve \((x(t),y(t))\) which doesn't minimize \(L\), we should be able to find \(\delta x\) and \(\delta y\) such that the resulting \(\delta L\) is negative. Then by iteratively adding these \(\delta x(t)\) and \(\delta y(t)\) to \(x(t)\) and \(y(t)\), we would converge to a curve for which \(L\) attains a local minimum.
 </p>
 
 <p>
-To make this possible, we have to discretize the curve. We discretize it into \(N\) parts &mdash; each of which corresponds to values of \(t\) in an interval of length \(1/N\). The curve is then represented by finitely many points \((x_0,\dots,x_N)\) and \((y_0,\dots,y_N)\), where
+To make this possible, we have to discretize the curve. We discretize it into \(N\) parts &mdash; each of which corresponds to values of \(t\) in an interval of length \(1/N\). The curve is then represented by finitely many points \(((x_0, y_0),\dots,(x_N,y_N))\), where
 $$
 \begin{align}
 x_i&=x\left(i/N\right)\\
 y_i&=y\left(i/N\right).
 \end{align}
 $$
-We can then approximate the derivatives by finite differences. For example,
+With this, we can approximate the derivatives by finite differences. For example,
 $$
 \begin{align}
 \left(\der xt\right)_i&=\left(\der xt\right)\left(i/N\right)\approx\frac{x_{i+1}-x_{i-1}}{2/N}\\
-\left(\derr xt\right)_i&=\left(\derr xt\right)\left(i/N\right)\approx\frac{x_{i+1}+x_{i-1}-2x_i}{1/N^2}.
+\left(\derr xt\right)_i&=\left(\derr xt\right)\left(i/N\right)\approx\frac{x_{i+1}-2x_i+x_{i-1}}{1/N^2}.
 \end{align}
 $$
-I've tried this approach with various parameters and the process was always either unstable, or converged slowly, or both. Alternatively, you can deduce the length directly from the discretized curve as
+Given those, it is straightforward to compute \(\delta x\) and \(\delta y\) such that \(\delta L&lt;0\). I've tried this approach with various parameters and the process was always either unstable, or converged slowly, or both.
+</p>
+<p>
+So alternatively, one can deduce the length directly from the discretized curve as
 $$
 L=\sum_{i=0}^{N-1}\sqrt{(x_{i+1}-x_i)^2+(y_{i+1}-y_i)^2}.
 $$
@@ -114,7 +154,7 @@ Then we have
 $$
 \begin{align}
 \frac{\partial L}{\partial x_i}=\frac{x_i-x_{i+1}}{\sqrt{(x_i-x_{i+1})^2+(y_i-y_{i+1})^2}}+\frac{x_i-x_{i-1}}{\sqrt{(x_i-x_{i-1})^2+(y_i-y_{i-1})^2}}\\
-\frac{\partial L}{\partial y_i}=\frac{y_i-y_{i+1}}{\sqrt{(x_i-x_{i+1})^2+(y_i-y_{i+1})^2}}+\frac{y_i-y_{i-1}}{\sqrt{(x_i-x_{i-1})^2+(y_i-y_{i-1})^2}},
+\frac{\partial L}{\partial y_i}=\frac{y_i-y_{i+1}}{\sqrt{(x_i-x_{i+1})^2+(y_i-y_{i+1})^2}}+\frac{y_i-y_{i-1}}{\sqrt{(x_i-x_{i-1})^2+(y_i-y_{i-1})^2}}
 \end{align}
 $$
 for all \(i\in\{1,\dots,N-1\}\), which we can use to iteratively update \((x_1,\dots,x_{N-1})\) and \((y_1,\dots,y_{N-1})\) until we converge to a local minimum of \(L\).
@@ -131,10 +171,10 @@ $$
 which has \((x_\mathrm s,y_\mathrm s)=(0,0)\) and \((x_\mathrm t,y_\mathrm t)=(1,1)\).
 </p>
 
-<h3>Shortest Path Encompassing an Area</h3>
+<h3>Shortest Path Enclosing an Area</h3>
 <h4>Formulation Using Functionals</h4>
 <p>
-This time, we will be a looking a shortest <em>closed</em> path that encompasses some given area \(S_0>0\). As before, a path is represented by continuous functions \(f:[0,1]\to\rr^2\) or \(x:[0,1]\to\rr\) and \(y:[0,1]\to\rr\). We require the paths to be closed, so we choose an arbitrary point \((x_\mathrm s,y_\mathrm s)\in\mathbb R^2\) and require
+This time, we will be a looking a shortest <em>closed</em> path that encloses a given area \(S_0>0\). As before, a path is represented by continuous functions \(f:[0,1]\to\rr^2\) or \(x:[0,1]\to\rr\) and \(y:[0,1]\to\rr\). We require the paths to be closed, so we choose an arbitrary point \((x_\mathrm s,y_\mathrm s)\in\mathbb R^2\) and enforce
 $$
 \begin{align}
 x(0)&=x(1)=x_\mathrm s\\
@@ -149,14 +189,28 @@ because if \(\Omega\) is the set enclosed by \(f(t)=(x(t),y(t))\), then by <a hr
 $$
 S(f(t))=\iint_\Omega 1\,\mathrm dx\mathrm dy=\oint_f(-y,0)\,\mathrm dt=\int_0^1-\der xty\,\mathrm dt.
 $$
-For the length of the curve, we use the same functional \(L\) as in the previous example.
+For the length of the curve, we use the same functional \(L\) as in the previous example. So to be exact, we face the following problem:
+<div class="summary-box">
+	<div class="summary-box-title">Formalized Problem</div>
+	<div class="summary-box-insides">
+		Given \((x\ssb s,y\ssb s)\in\rr^2\) and \(S_0\in\rr\) with \(S_0&gt;0\), find differentiable functions \(x:[0,1]\to\rr\) and \(y:[0,1]\to\rr\) with \((x(0),y(0),x(1),y(1))=(x\ssb s,y\ssb s,x\ssb s,y\ssb s)\) and
+		$$
+		S(x(t),y(t))=\int_0^1-\der xty\,\mathrm dt=S_0
+		$$
+		such that
+		$$
+		L(x(t),y(t))=\int_0^1\sqrt{\left(\der xt\right)^2+\left(\der yt\right)^2}\,\mathrm dt
+		$$
+		is minimized.
+	</div>
+</div>
 </p>
 <p>
-It is standard knowledge that the answer here is a circle of radius \(\sqrt{S_0/\pi}\) and circumference \(L=2\sqrt{\pi S_0}\), but for the same reasons are before, we want to use the calculus of variations to deduce that that is in fact the solution.
+It is standard knowledge that the answer here is a circle of radius \(\sqrt{S_0/\pi}\) and circumference \(L=2\sqrt{\pi S_0}\), but for the same reasons as before, we want to use the calculus of variations to deduce that that is in fact the solution.
 </p>
 <h4>\(\delta S\) and Lagrange Multipliers</h4>
 <p>
-Now we need to minimize \(L\) as before, but this time under the constraint \(S(x(t),y(t))=S_0\). We shall use the <a href="https://en.wikipedia.org/wiki/Lagrange_multiplier">method of Lagrange multipliers</a>. As a functional that maps the functions \((\delta x,\delta y)\) to elements of \(\rr\), we can consider \(\delta L\) to be an element of the vector space of all such functionals. At a local extremum of \(L\) under constrained by \(S=S_0\), \(\delta L\) will not necessarily have to be zero, but it has to be zero for all \((\delta x,\delta y)\), for which \(\delta S=S(x+\delta x,y+\delta y)-S(x,y)\) is zero. It follows that there must exist we have to have \(\lambda\in\rr\) such that \(\delta L=\lambda\delta S\).
+Now we again need to minimize \(L\), but this time, it is under the constraint \(S(x(t),y(t))=S_0\). We shall use the <a href="https://en.wikipedia.org/wiki/Lagrange_multiplier">method of Lagrange multipliers</a>. As a functional that maps the functions \((\delta x,\delta y)\) to elements of \(\rr\), we can consider \(\delta L\) to be an element of the vector space of all such functionals. At a local extremum of \(L\) constrained by \(S=S_0\), \(\delta L\) will not necessarily have to be zero, but it will have to be zero for all \((\delta x,\delta y)\), for which \(\delta S=S(x+\delta x,y+\delta y)-S(x,y)\) is zero (otherwise, we could take \((\delta x,\delta y)\) for which \(\delta S\) is zero and \(\delta L\) non-zero and add small multiples of it to \((x,y)\) to decrease \(\delta L\) while preserving the \(S=S_0\) contraint). It follows that there must exist \(\lambda\in\rr\) such that \(\delta L=\lambda\delta S\).
 </p>
 <p>
 Hence, the next step is to calculate \(\delta S\).
@@ -173,7 +227,7 @@ $$
 &=\int_0^1\left(\der yt\delta x-\der xt\delta y\right)\,\mathrm dt
 \end{align}
 $$
-As we argued above, there must exists \(\lambda\in\rr\) such that
+As we argued above, there must exists \(\lambda\in\rr\) such that \(\delta L=\lambda\delta S\), which means 
 $$
 \begin{align}
 \frac{\left(\derr xt\cdot\der yt-\derr yt\cdot\der xt\right)\der yt}{\left(\left(\der xt\right)^2+\left(\der yt\right)^2\right)^{3/2}}&=\lambda\der yt\\
@@ -184,11 +238,21 @@ Again, we only consider parametrizations for which \(\der xt\ne0\) or \(\der yt\
 $$
 \frac{\derr xt\cdot\der yt-\derr yt\cdot\der xt}{\left(\left(\der xt\right)^2+\left(\der yt\right)^2\right)^{3/2}}=\lambda.
 $$
-<h4>Showing that the Minimum is a Circle</h4>
-Such a formula doesn't seem to give us clear information about the curve right away. However, we already suspect that the curve needs to be a circle, so we will try to prove that. To that end, we can look at any point along the curve and define a new point \((x_\mathrm c,y_\mathrm c)\) as a function of \(\left(x,y,\der xt,\der yt,\derr xt,\derr yt\right)\). If we then show that \((x_\mathrm c,y_\mathrm c)\) is the same point for all points along the curve and that the distance between \((x,y)\) and \((x_\mathrm c,y_\mathrm c)\) is kept constant, we will be able to conclude that the curve is a circle with \((x_\mathrm c,y_\mathrm c)\) as the center.
+<div class="summary-box">
+	<div class="summary-box-title">Differential Equation for the Solution</div>
+	<div class="summary-box-insides">
+		For a pair of \(x:[0,1]\to\rr\) and \(y:[0,1]\to\rr\) solving our current optimization problem (minimizing \(L(x(t),y(t))\) under \(S(x(t),y(t))=S_0\)), there exists \(\lambda\in\rr\) such that \(x\) and \(y\) satisfy
+		$$
+		\frac{\derr xt\cdot\der yt-\derr yt\cdot\der xt}{\left(\left(\der xt\right)^2+\left(\der yt\right)^2\right)^{3/2}}=\lambda.
+		$$
+		for all values of \(t\in[0,1]\).
+	</div>
+</div>
+<h4>Showing That the Minimum Is a Circle</h4>
+Seeing what the curve looks like just by contemplating the formula is about as easy for me as executing a program by reading the machine code. (It <em>isn't</em>.) Point is, the above formula doesn't give us a clear visualization of the curve right away. However, we already suspect that the curve needs to be a circle, so we will try to prove exactly that. To that end, we can look at any point along the curve and define a new point \((x_\mathrm c,y_\mathrm c)\) as a function of \(\left(x,y,\der xt,\der yt,\derr xt,\derr yt\right)\). Supposedly the center of our circle. If we then show that \((x_\mathrm c,y_\mathrm c)\) is the same point for all points along the curve and that the distance between \((x,y)\) and \((x_\mathrm c,y_\mathrm c)\) is kept constant, we will be able to conclude that the curve is a circle with \((x_\mathrm c,y_\mathrm c)\) as the center.
 </p>
 <p>
-To determine the formula for \((x_\mathrm c,y_\mathrm c)\), we realize that along a circle, the velocity vector is always perpendicular to the direction toward the center. So to get \((x_\mathrm c,y_\mathrm c)\), we will add a vector perpendicular to \(\left(\der xt,\der yt\right)\) to \((x,y)\). To determine the length of this vector, we remind ourselves of the formula for centripetal acceleration in case of circular motion:
+To determine the formula for \((x_\mathrm c,y_\mathrm c)\), we realize that when moving along a circle, the velocity vector is always perpendicular to the direction toward the center. So to get \((x_\mathrm c,y_\mathrm c)\), we will add a vector perpendicular to \(\left(\der xt,\der yt\right)\) to \((x,y)\). To determine the length of this vector, we remind ourselves of the formula for centripetal acceleration during circular motion:
 $$
 a_{\mathrm{center}}=\frac{v^2}{r},
 $$
@@ -237,10 +301,24 @@ and similarly
 $$
 \der{y_\mathrm c}t=0.
 $$
+Note that the constant distance betwen \((x,y)\) and \((x\ssb c,y\ssb c)\) is \(1/\lambda\), so we know that our \(\lambda\) is just one over the radius. Then, since the area of a circle is \(\pi r^2\), we can deduce \(\lambda=\sqrt{\pi/S_0}\). All in all, the final result is:
+<div class="summary-box">
+	<div class="summary-box-title">Solution to the Problem</div>
+	<div class="summary-box-insides">
+		A pair of \(x:[0,1]\to\rr\) and \(y:[0,1]\to\rr\) are a solution to our current optimization problem if and only if they represent a parametrization of a circle going through \((x\ssb s,y\ssb s)\) with radius \(r=\sqrt{S_0/\pi}\). More precisely, if and only if there exists a differentiable bijection \(b:[0,1]\to[0,1]\) with \(b(0)=0\) and \(b(1)=1\) and \(\theta\in\rr\) such that
+		$$
+		\begin{align}
+		x(t)&=x\ssb s+r(\cos(2\pi b(t)+\theta)-\cos(\theta))\\
+		y(t)&=y\ssb s+r(\sin(2\pi b(t)+\theta)-\sin(\theta))
+		\end{align}
+		$$
+		with \(r=\sqrt{S_0/\pi}\) and for all values of \(t\in[0,1]\).
+	</div>
+</div>
 </p>
-<h4>Grandient Descent and Lagrange Multipliers for Minimal \(L\) and Constant \(S\)</h4>
+<h4>Gradient Descent and Lagrange Multipliers for Minimal \(L\) and Constant \(S\)</h4>
 <p>
-Finally, we'd like to find a way of converging from a given curve \((x(t),y(t))\) to one that minimizes \(L\) under the constraint \(S=S_0\). We could use the calculated \(\delta L\) and \(\delta S\), but with the experience from the previous example, I expect it to be more effective to express \(L\) and \(S\) directly as a function of the discretized curve and calculate the derivatives of those with respect to the individual points \((x_0,\dots,x_N)\) and \((y_0,\dots,y_N)\).
+Finally, we'd like to find a way of converging from a given curve \((x(t),y(t))\) to one that minimizes \(L\) under the constraint \(S=S_0\). We could use the calculated \(\delta L\) and \(\delta S\), but with the experience from the previous example, I expect it to be more effective to express \(L\) and \(S\) directly as a function of the discretized curve and calculate their derivatives with respect to the coordinates of the individual points \((x_1,\dots,x_{N-1})\) and \((y_1,\dots,y_{N-1})\).
 </p>
 
 <p>
@@ -267,7 +345,7 @@ to get
 $$
 \vec u:=\nabla L-\frac{\nabla L\cdot\nabla S}{\lVert\nabla S\rVert^2}\nabla S.
 $$
-Then unless \(\vec u=0\) (in which case we've reached the local extremum), the derivative of \(L\) along \(\vec u\) is positive (the largest possible, in fact) while the derivative of \(S\) along \(\vec u\) is zero. Therefore, adding a small negative multiple of \(\vec u\) to our curve decreases \(L\) without violating the \(S=S_0\) constraint.
+Then unless \(\vec u=0\) (in which case we've reached the local extremum), the derivative of \(L\) along \(\vec u\) is positive (in fact, the largest possible if we also preserve \(S=S_0\)) while the derivative of \(S\) along \(\vec u\) is zero. Therefore, adding a small negative multiple of \(\vec u\) to our curve decreases \(L\) without violating the \(S=S_0\) constraint.
 </p>
 
 <p>
@@ -278,6 +356,6 @@ x(t)&=\cos(2\pi t)-\frac12\sin(6\pi t)\\
 y(t)&=\sin(2\pi t)+\frac12\cos(4\pi t),
 \end{align}
 $$
-which has \((x(0),y(0))=(x(1),y(1))=(1,1/2)\). The following animation shows it converging to the shortest curve which encloses the same area.
+which has \((x\ssb s,y\ssb s)=(x(0),y(0))=(x(1),y(1))=(1,1/2)\) and encloses the area of \(S_0=\pi\). The following animation shows it converging to the shortest curve which encloses that same area.
 </p>
 <img src="/article_resrcs/standard_calculus_of_variations_circling.gif" alt="animation of a curve covering to a local minimum of L">
