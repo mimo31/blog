@@ -11,7 +11,7 @@ CREATE TABLE article (
 	url_name 		CHAR(255) NOT NULL UNIQUE,
 	time_created	REAL NOT NULL,
 	time_edited		REAL,
-	/* filename		CHAR(255) NOT NULL, */
+	reveal_text		CHAR(255),
 	description		TEXT NOT NULL,
 	category_id		INTEGER NOT NULL,
 

@@ -14,6 +14,7 @@
 	let comments = writable([]);
 	let replying_to_index = -1;
 	let something_loaded = false;
+	let revealed = false;
 
 	function processComments(comment_data)
 	{
@@ -69,7 +70,10 @@
 	}
 	$: startArticleLoad(article_url_name);
 
-	onMount(() => startArticleLoad(article_url_name));
+	onMount(() => {
+		revealed = false;
+		startArticleLoad(article_url_name)
+	});
 
 	function onCommentSubmit(e)
 	{
@@ -99,8 +103,16 @@
 	<div>
 		{@html $loaded_article.content}
 	</div>
+	{#if $loaded_article.reveal_text !== null}
+		<button id="reveal-button" type="button" on:click={() => {console.log($loaded_article.reveal_text); revealed = !revealed; setTimeout(() => MathJax.typeset(), 0);}}>{(revealed ? "hide " : "reveal ") + $loaded_article.reveal_text}</button>
+		{#if revealed}
+			<div>
+				{@html $loaded_article.reveal_content}
+			</div>
+		{/if}
+	{/if}
 	<p>
-		as this site is still very much WOP, posted comments can be deleted at any time
+		---as this site is still very much WOP, posted comments can be deleted at any time---
 	</p>
 	{#if replying_to_index === -1}
 		<NewCommentWidget top_description="new comment" submit_button_text="create comment" article_id={$loaded_article.id} reply_to_id=null layer=0 cancellable=false on:submit={onCommentSubmit}/>
@@ -112,3 +124,11 @@
 		{/if}
 	{/each}
 {/if}
+
+<style>
+
+#reveal-button {
+	margin: 10px;
+}
+
+</style>

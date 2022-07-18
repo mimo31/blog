@@ -118,15 +118,20 @@ def article_tag_array(article_id):
 def get_article():
     conn = get_db_connection()
     art_url_name = request.args.get('url_name')
-    entry = conn.cursor().execute("SELECT id,name,time_created,time_edited,description,category_id FROM article WHERE url_name=?", (art_url_name,)).fetchall()
+    entry = conn.cursor().execute("SELECT id,name,time_created,time_edited,description,category_id,reveal_text FROM article WHERE url_name=?", (art_url_name,)).fetchall()
     if len(entry) == 0:
         conn.close()
         return "article " + art_url_name + " does not exist", 404
     else:
         uentry = entry[0]
-        filehandle = open("articles/" + art_url_name + ".html", 'r');
-        article_content = filehandle.read();
+        filehandle = open("articles/" + art_url_name + ".html", 'r')
+        article_content = filehandle.read()
         filehandle.close()
+        reveal_content = "";
+        if not uentry[6] is None:
+            rev_filehandle = open("articles/" + art_url_name + "-reveal.html", 'r')
+            reveal_content = rev_filehandle.read()
+            rev_filehandle.close()
         art_id = uentry[0];
         comment_entries = conn.cursor().execute("SELECT id,content,author,time_created,reply_to_id FROM comment WHERE article_id=?", (art_id,)).fetchall()
         return addheader({
@@ -138,6 +143,8 @@ def get_article():
             "content": article_content,
             "description": uentry[4],
             "category_id": uentry[5],
+            "reveal_text": uentry[6],
+            "reveal_content": reveal_content,
             "tags": article_tag_array(uentry[0]),
             "comments": list(map(lambda comment:
                 {

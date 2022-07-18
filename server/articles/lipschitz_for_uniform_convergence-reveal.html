@@ -1,0 +1,57 @@
+<p>
+The statement is indeed true and we're about to prove it.
+</p>
+<h4>Step 1: \(f\) is also \(\lambda\)-Lipschitz</h4>
+<p>
+Let's start by showing the unsurprising fact that \(f\) is also \(\lambda\)-Lipschitz. For that, let \(x_1,x_2\in D\) be arbitrary. Then we have
+$$
+\lvert f(x_1)-f(x_2)\rvert=\Big\lvert\lmnf f_n(x_1)-\lmnf f_n(x_2)\Big\rvert=\lmnf\lvert f_n(x_1)-f_n(x_2)\rvert\leq\lambda\lvert x_1-x_2\rvert
+$$
+exactly as we wanted. The last step works because \(\lvert f_n(x_1)-f_n(x_2)\rvert\leq\lambda\lvert x_1-x_2\rvert\) for all \(n\) by the \(\lambda\)-Lipschitz property of \(f_n\).
+</p>
+<h4>Step 2: WLOG \(f=0\)</h4>
+<p>
+Let's define another sequence of functions \((g_n)_{n\geq1}\) by
+$$
+g_n=f_n-f
+$$
+for all \(n\geq 1\). It is straightforward to see that
+<ul>
+	<li>
+		\((f_n)_{n\geq1}\) converges pointwise to \(f\) if and only \((g_n)_{n\geq1}\) converges pointwise to \(0\) and
+	</li>
+	<li>
+		\((f_n)_{n\geq1}\) converges uniformly to \(f\) if and only if \((g_n)_{n\geq1}\) converges uniformly to \(0\).
+	</li>
+</ul>
+So we know that \((g_n)_{n\geq1}\) converges pointwise to \(0\) and to complete the proof, it suffices to show that \((g_n)_{n\geq1}\) also converges to \(0\) uniformly. Besides, I claim that \(g_n\) is \((2\lambda)\)-Lipschitz for all \(n\geq 1\). That's because \(f_n\) and \(-f\) are both \(\lambda\)-Lipschitz and, as you can readily verify, the sum of a \(\lambda_1\)-Lipschitz function and a \(\lambda_2\)-Lipschitz function is \((\lambda_1+\lambda_2)\)-Lipschitz.
+</p>
+<h4>Step 3: \((g_n)_{n\geq1}\) converges uniformly to \(0\)</h4>
+<p>
+To show that \((g_n)_{n\geq1}\) indeed converges uniformly to \(0\), we pick an arbitrary \(\varepsilon\in\rr,\varepsilon&gt;0\) and we look for \(N\in\nn\) such that for all \(n\geq N\), we have \(\lvert g_n(x)\rvert&lt;\varepsilon\).
+</p>
+<p>
+Since \(D\) is bounded, we can select a <em>finite</em> number of points \(x_1,x_2,\dots,x_k\in D\) such that for every point \(x\in D\), there exists \(i\in\{1,2,\dots,k\}\) such that \(\lvert x-x_i\rvert&lt;\frac{\varepsilon}{4\lambda}\). Since \((g_n)_{n\geq1}\) converges pointwise to \(0\), we can find \(N_1,N_2,\dots,N_k\in\nn\) such that for each \(i\in\{1,2,\dots,k\}\) and for each \(n\geq N_i\), we have \(\lvert g_n(x_i)\rvert&lt;\varepsilon/2\). Now we define
+$$
+N:=\max_{i\in\{1,2,\dots,k\}}N_i
+$$
+so that we have \(\lvert g_n(x_i)\rvert&lt;\varepsilon/2\) for each \(i\in\{1,2,\dots,k\}\) and \(n\geq N\).
+</p>
+<p>
+Finally, let \(n\geq N\) and \(x\in D\) be arbitrary. From the definition of \(x_1,x_2,\dots,x_N\), we know there is \(i\) such that \(\lvert x-x_i\rvert&lt;\frac\varepsilon{4\lambda}\). As \(g_n\) is \((2\lambda)\)-Lipschitz,
+$$
+\lvert g_n(x)-g_n(x_i)\rvert\leq2\lambda\lvert x-x_i\rvert&lt;\frac\varepsilon2.
+$$
+That means that
+$$
+\lvert g_n(x)\rvert=\lvert g_n(x)-g_n(x_i)+g_n(x_i)\rvert\leq\lvert g_n(x)-g_n(x_i)\rvert+\lvert g_n(x_i)\rvert&lt;\varepsilon
+$$
+as we needed. This completes the proof.
+</p>
+<h4>Discussion</h4>
+<p>
+Note that it was <em>crucial</em> that all \(f_n\) shared the same Lipschitz constant \(\lambda\). The statement wouldn't be true if we only required that \(f_n\) be Lipschitz without specifying the constant. It also wouldn't be true if we dropped the requirement that \(D\) be bounded.
+</p>
+<p>
+Can you generalize the theorem? Can you improve the proof? Do let me know.
+</p>

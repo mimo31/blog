@@ -83,3 +83,7 @@ button:focus {
 .summary-box-insides {
 	padding: 7px;
 }
+
+li {
+	margin: 6px;
+}

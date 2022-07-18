@@ -125,7 +125,7 @@ which leads to the same conclusion. We can state the final result as:
 </p>
 <h4>Minimizing \(L\) Using Gradient Descent</h4>
 <p>
-It occured to me that there were no pretty pictures here so far. It would be worth crying over if it stayed that way. We've computed \(\delta L\) as a function of \(x\), \(y\), \(\delta x\), and \(\delta y\), so given any curve \((x(t),y(t))\) which doesn't minimize \(L\), we should be able to find \(\delta x\) and \(\delta y\) such that the resulting \(\delta L\) is negative. Then by iteratively adding these \(\delta x(t)\) and \(\delta y(t)\) to \(x(t)\) and \(y(t)\), we would converge to a curve for which \(L\) attains a local minimum.
+It occurred to me that there were no pretty pictures here so far. It would be worth crying over if it stayed that way. We've computed \(\delta L\) as a function of \(x\), \(y\), \(\delta x\), and \(\delta y\), so given any curve \((x(t),y(t))\) which doesn't minimize \(L\), we should be able to find \(\delta x\) and \(\delta y\) such that the resulting \(\delta L\) is negative. Then by iteratively adding these \(\delta x(t)\) and \(\delta y(t)\) to \(x(t)\) and \(y(t)\), we would converge to a curve for which \(L\) attains a local minimum.
 </p>
 
 <p>
@@ -210,7 +210,7 @@ It is standard knowledge that the answer here is a circle of radius \(\sqrt{S_0/
 </p>
 <h4>\(\delta S\) and Lagrange Multipliers</h4>
 <p>
-Now we again need to minimize \(L\), but this time, it is under the constraint \(S(x(t),y(t))=S_0\). We shall use the <a href="https://en.wikipedia.org/wiki/Lagrange_multiplier">method of Lagrange multipliers</a>. As a functional that maps the functions \((\delta x,\delta y)\) to elements of \(\rr\), we can consider \(\delta L\) to be an element of the vector space of all such functionals. At a local extremum of \(L\) constrained by \(S=S_0\), \(\delta L\) will not necessarily have to be zero, but it will have to be zero for all \((\delta x,\delta y)\), for which \(\delta S=S(x+\delta x,y+\delta y)-S(x,y)\) is zero (otherwise, we could take \((\delta x,\delta y)\) for which \(\delta S\) is zero and \(\delta L\) non-zero and add small multiples of it to \((x,y)\) to decrease \(\delta L\) while preserving the \(S=S_0\) contraint). It follows that there must exist \(\lambda\in\rr\) such that \(\delta L=\lambda\delta S\).
+Now we again need to minimize \(L\), but this time, it is under the constraint \(S(x(t),y(t))=S_0\). We shall use the <a href="https://en.wikipedia.org/wiki/Lagrange_multiplier">method of Lagrange multipliers</a>. As a functional that maps the functions \((\delta x,\delta y)\) to elements of \(\rr\), we can consider \(\delta L\) to be an element of the vector space of all such functionals. At a local extremum of \(L\) constrained by \(S=S_0\), \(\delta L\) will not necessarily have to be zero, but it will have to be zero for all \((\delta x,\delta y)\), for which \(\delta S=S(x+\delta x,y+\delta y)-S(x,y)\) is zero (otherwise, we could take \((\delta x,\delta y)\) for which \(\delta S\) is zero and \(\delta L\) non-zero and add small multiples of it to \((x,y)\) to decrease \(\delta L\) while preserving the \(S=S_0\) constraint). It follows that there must exist \(\lambda\in\rr\) such that \(\delta L=\lambda\delta S\).
 </p>
 <p>
 Hence, the next step is to calculate \(\delta S\).
@@ -301,7 +301,7 @@ and similarly
 $$
 \der{y_\mathrm c}t=0.
 $$
-Note that the constant distance betwen \((x,y)\) and \((x\ssb c,y\ssb c)\) is \(1/\lambda\), so we know that our \(\lambda\) is just one over the radius. Then, since the area of a circle is \(\pi r^2\), we can deduce \(\lambda=\sqrt{\pi/S_0}\). All in all, the final result is:
+Note that the constant distance between \((x,y)\) and \((x\ssb c,y\ssb c)\) is \(1/\lambda\), so we know that our \(\lambda\) is just one over the radius. Then, since the area of a circle is \(\pi r^2\), we can deduce \(\lambda=\sqrt{\pi/S_0}\). All in all, the final result is:
 <div class="summary-box">
 	<div class="summary-box-title">Solution to the Problem</div>
 	<div class="summary-box-insides">
